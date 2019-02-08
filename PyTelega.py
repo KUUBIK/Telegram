@@ -1,9 +1,11 @@
 import telebot
 from telebot import types
 import datetime
-from Parser_site import parsingSite, parsingData
-from keys import token
+import bs4
+import requests
+import re
 
+token = '603482894:AAHhXpXoM8PQrqRUHaC4Bh5K3FC_-5ITug0'
 bot = telebot.TeleBot(token)
 
 thunderstorm = u'\U0001F4A8'    # Code: 200's, 900, 901, 902, 905
@@ -19,8 +21,45 @@ clouds = u'\U00002601'          # Code: 802-803-804 clouds general
 hot = u'\U0001F525'             # Code: 904
 defaultEmoji = u'\U0001F300' # default emojis
 
+response = requests.get('https://yandex.ru/pogoda/astana?from=serp_title')
+
+responseNew = response.text
+dom = bs4.BeautifulSoup(response.text)
+
+def parsingSite():
+
+    data = dom.findAll("div", 'fact__temp-wrap') #температура сейчас
+    print(data)
+    print(type(responseNew))
+    data = str(data)
+    lookfor = r">[−1.\d,%]+"
+    parce = re.findall(lookfor, data)
+    parce = str(parce)
+    lookfor2 = r"(?!,)[−1.\d,%]+"
+
+    parce = re.findall(lookfor2, parce)
+    print(parce)
 
 
+
+
+
+    return parce
+
+def parsingData():
+
+    data = dom.findAll("div", 'fact__props fact__props_position_middle') #температура сейчас
+    print(data)
+    data = str(data)
+    lookfor = r">[−1.\d,%]+"
+    parce = re.findall(lookfor, data)
+    print(parce)
+    lookfor2 = r"(?!,)[−1.\d,%]+"
+    parce = str(parce)
+    parce = re.findall(lookfor2, parce)
+    print(parce)
+    del(parce[2])
+    return parce
 
 @bot.message_handler(commands=['data'])
 def handle_start_help(message):
