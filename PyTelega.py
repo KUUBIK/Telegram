@@ -29,8 +29,8 @@ dom = bs4.BeautifulSoup(response.text)
 def parsingSite():
 
     data = dom.findAll("div", 'fact__temp-wrap') #температура сейчас
-    print(data)
-    print(type(responseNew))
+    # print(data)
+    # print(type(responseNew))
     data = str(data)
     lookfor = r">[−1.\d,%]+"
     parce = re.findall(lookfor, data)
@@ -38,7 +38,7 @@ def parsingSite():
     lookfor2 = r"(?!,)[−1.\d,%]+"
 
     parce = re.findall(lookfor2, parce)
-    print(parce)
+    # print(parce)
 
 
 
@@ -49,15 +49,15 @@ def parsingSite():
 def parsingData():
 
     data = dom.findAll("div", 'fact__props fact__props_position_middle') #температура сейчас
-    print(data)
+    # print(data)
     data = str(data)
     lookfor = r">[−1.\d,%]+"
     parce = re.findall(lookfor, data)
-    print(parce)
+    # print(parce)
     lookfor2 = r"(?!,)[−1.\d,%]+"
     parce = str(parce)
     parce = re.findall(lookfor2, parce)
-    print(parce)
+    # print(parce)
     del(parce[2])
     return parce
 
@@ -72,14 +72,14 @@ def handle_start_help(message):
     minute = now.minute
     year = now.year
     minute = now.minute
-    print(len(str(minute)))
+    # print(len(str(minute)))
     if len(str(minute)) == 1:
 
         retrn = str(day) + ' ' + month.strip()+ ' ' + str(year) + ' года'+ ' ' + str(hour) + ':'+ '0' + str(minute) + drizzle
         bot.send_message(message.chat.id, retrn)
     else:
         retrn = str(day) + ' ' + month.strip()+ ' ' + str(year) + ' года'+ ' ' + str(hour) + ':' + str(minute)+ drizzle
-        print(retrn)
+        # print(retrn)
         bot.send_message(message.chat.id, retrn)
 
 
@@ -109,7 +109,7 @@ def time(message):
     listZvonok = ['8:50','9:55' ,'11:10' ,'12:05' ,'13:10' ,'14:15' ,'15:20', '16:25', '17:30', '18:35', '19:40' ]
     nowHour = datetime.datetime.now()
     Hours = nowHour.hour
-    print(Hours)
+    # print(Hours)
     Hours = Hours - 8
     try:
         minute = listZvonok[Hours]
@@ -122,7 +122,7 @@ def time(message):
 @bot.message_handler(func=lambda message: True,content_types=['text'])
 def echo_msg(message):
     bot.send_message(message.chat.id, message.text) # здесь он отправляеть сообщение (What??) на наш телеграмм бот
-    print(message.text)
+    # print(message.text)
     markup = types.ReplyKeyboardRemove(True)
     bot.send_message(message.chat.id, "Choose one letter:" + str(message.text), reply_markup=markup)
 
